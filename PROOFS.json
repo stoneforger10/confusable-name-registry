@@ -1,0 +1,295 @@
+{
+  "network": "StudioNet",
+  "source_commit": "750464031479bfbc78d3519b5b5f4a6e9d28309d",
+  "transactions": [
+    {
+      "step": "deploy",
+      "args": [
+        "deploy",
+        "--contract",
+        "contracts/ConfusableNameRegistry.py"
+      ],
+      "signer": "0x7a413BB4AB62E31d62d4cD9efC8C8a8Dae37FB42",
+      "nonce": "0x1f0",
+      "hash": "0x85ec173119042b18d7bdb58c504391a4bb9f47c303a5e9aeab4b9b3e4a7bdc8a",
+      "receipt": {
+        "hash": "0x85ec173119042b18d7bdb58c504391a4bb9f47c303a5e9aeab4b9b3e4a7bdc8a",
+        "address": "0xD6000384F4F8cD4008bba17D9353b7406af811B5",
+        "status": "FINALIZED",
+        "execution": "SUCCESS",
+        "consensus": "MAJORITY_AGREE",
+        "committed": true,
+        "leader_only": false,
+        "initial_validators": 5,
+        "agree_votes": 4,
+        "idle_votes": 1,
+        "disagree_votes": 0,
+        "validator_execution_seen": true
+      }
+    },
+    {
+      "step": "reserve-original",
+      "args": [
+        "write",
+        "0xD6000384F4F8cD4008bba17D9353b7406af811B5",
+        "reserve",
+        "--args",
+        "modern",
+        "modern"
+      ],
+      "signer": "0x7a413BB4AB62E31d62d4cD9efC8C8a8Dae37FB42",
+      "nonce": "0x1f1",
+      "hash": "0xeefeba85709059c3915b906182f0e3c9f9ef7d86c257a50cd9ed3a84e5019bcf",
+      "receipt": {
+        "hash": "0xeefeba85709059c3915b906182f0e3c9f9ef7d86c257a50cd9ed3a84e5019bcf",
+        "address": "0xD6000384F4F8cD4008bba17D9353b7406af811B5",
+        "status": "FINALIZED",
+        "execution": "SUCCESS",
+        "consensus": "MAJORITY_AGREE",
+        "committed": true,
+        "leader_only": false,
+        "initial_validators": 5,
+        "agree_votes": 3,
+        "idle_votes": 2,
+        "disagree_votes": 0,
+        "validator_execution_seen": true
+      },
+      "return_value": {
+        "candidate_keys": [
+          "023279afa55b6c86ec093580c404a82f2122816a3b7a17ae6d8f93790719afbb"
+        ],
+        "record": {
+          "data_sha256": "95bd0aad6dced5ebc63436f459c06ab21a8d107cd842fb57f5c3a1e91bca8611",
+          "name": "modern",
+          "owner": "0x7a413bb4ab62e31d62d4cd9efc8c8a8dae37fb42",
+          "skeleton": "rnodern",
+          "skeleton_key": "023279afa55b6c86ec093580c404a82f2122816a3b7a17ae6d8f93790719afbb"
+        },
+        "status": "RESERVED"
+      }
+    },
+    {
+      "step": "reject-both-lookalikes",
+      "args": [
+        "write",
+        "0xD6000384F4F8cD4008bba17D9353b7406af811B5",
+        "reserve",
+        "--args",
+        "rnodern",
+        "mоdern"
+      ],
+      "signer": "0x34346773a22564cbcc5f1d67d1c1f9f196daea35",
+      "nonce": "0x3a",
+      "hash": "0xe0416b56f3e0b4ecd406a0df1ce5ca6654064b1e65247ec81fb3b20b1fe35788",
+      "receipt": {
+        "hash": "0xe0416b56f3e0b4ecd406a0df1ce5ca6654064b1e65247ec81fb3b20b1fe35788",
+        "address": "0xD6000384F4F8cD4008bba17D9353b7406af811B5",
+        "status": "FINALIZED",
+        "execution": "SUCCESS",
+        "consensus": "MAJORITY_AGREE",
+        "committed": true,
+        "leader_only": false,
+        "initial_validators": 5,
+        "agree_votes": 3,
+        "idle_votes": 2,
+        "disagree_votes": 0,
+        "validator_execution_seen": true
+      },
+      "return_value": {
+        "candidate_keys": [
+          "023279afa55b6c86ec093580c404a82f2122816a3b7a17ae6d8f93790719afbb",
+          "023279afa55b6c86ec093580c404a82f2122816a3b7a17ae6d8f93790719afbb"
+        ],
+        "status": "COLLISION"
+      }
+    },
+    {
+      "step": "reserve-fallback",
+      "args": [
+        "write",
+        "0xD6000384F4F8cD4008bba17D9353b7406af811B5",
+        "reserve",
+        "--args",
+        "mоdern",
+        "modern-lab"
+      ],
+      "signer": "0x34346773a22564cbcc5f1d67d1c1f9f196daea35",
+      "nonce": "0x3b",
+      "hash": "0x34c9c92e27f685cfe0b3edb8579a214fbe08feb9f3b0616bf9ccfce7d0e09b11",
+      "receipt": {
+        "hash": "0x34c9c92e27f685cfe0b3edb8579a214fbe08feb9f3b0616bf9ccfce7d0e09b11",
+        "address": "0xD6000384F4F8cD4008bba17D9353b7406af811B5",
+        "status": "FINALIZED",
+        "execution": "SUCCESS",
+        "consensus": "MAJORITY_AGREE",
+        "committed": true,
+        "leader_only": false,
+        "initial_validators": 5,
+        "agree_votes": 3,
+        "idle_votes": 2,
+        "disagree_votes": 0,
+        "validator_execution_seen": true
+      },
+      "return_value": {
+        "candidate_keys": [
+          "023279afa55b6c86ec093580c404a82f2122816a3b7a17ae6d8f93790719afbb",
+          "d29f53ee80a96dcd00dd0dbbee659b40a3d016870b20c2ec2863f1d065f3f8fe"
+        ],
+        "record": {
+          "data_sha256": "95bd0aad6dced5ebc63436f459c06ab21a8d107cd842fb57f5c3a1e91bca8611",
+          "name": "modern-lab",
+          "owner": "0x34346773a22564cbcc5f1d67d1c1f9f196daea35",
+          "skeleton": "rnodern-lab",
+          "skeleton_key": "d29f53ee80a96dcd00dd0dbbee659b40a3d016870b20c2ec2863f1d065f3f8fe"
+        },
+        "status": "RESERVED"
+      }
+    },
+    {
+      "step": "release-original",
+      "args": [
+        "write",
+        "0xD6000384F4F8cD4008bba17D9353b7406af811B5",
+        "release",
+        "--args",
+        "modern"
+      ],
+      "signer": "0x7a413BB4AB62E31d62d4cD9efC8C8a8Dae37FB42",
+      "nonce": "0x1f2",
+      "hash": "0xf1c71e0363da5f7f0f4d4f16086341b1c99d73ac2352b9377a5dac495c220158",
+      "receipt": {
+        "hash": "0xf1c71e0363da5f7f0f4d4f16086341b1c99d73ac2352b9377a5dac495c220158",
+        "address": "0xD6000384F4F8cD4008bba17D9353b7406af811B5",
+        "status": "FINALIZED",
+        "execution": "SUCCESS",
+        "consensus": "MAJORITY_AGREE",
+        "committed": true,
+        "leader_only": false,
+        "initial_validators": 5,
+        "agree_votes": 3,
+        "idle_votes": 2,
+        "disagree_votes": 0,
+        "validator_execution_seen": true
+      }
+    }
+  ],
+  "address": "0xD6000384F4F8cD4008bba17D9353b7406af811B5",
+  "source": {
+    "address": "0xD6000384F4F8cD4008bba17D9353b7406af811B5",
+    "source_match": true,
+    "sha256": "1178b9bbe0a70aa653ef1ae68010f66a2f17a63675792581395fadd5c6467b18"
+  },
+  "checkpoints": {
+    "single slot claimed": [
+      {
+        "method": "lookup_name",
+        "arg": "modern",
+        "value": {
+          "name": "modern",
+          "owner": "0x7a413bb4ab62e31d62d4cd9efc8c8a8dae37fb42",
+          "skeleton": "rnodern",
+          "skeleton_key": "023279afa55b6c86ec093580c404a82f2122816a3b7a17ae6d8f93790719afbb",
+          "data_sha256": "95bd0aad6dced5ebc63436f459c06ab21a8d107cd842fb57f5c3a1e91bca8611"
+        }
+      },
+      {
+        "method": "lookup_skeleton",
+        "arg": "023279afa55b6c86ec093580c404a82f2122816a3b7a17ae6d8f93790719afbb",
+        "value": {
+          "name": "modern",
+          "owner": "0x7a413bb4ab62e31d62d4cd9efc8c8a8dae37fb42",
+          "skeleton": "rnodern",
+          "skeleton_key": "023279afa55b6c86ec093580c404a82f2122816a3b7a17ae6d8f93790719afbb",
+          "data_sha256": "95bd0aad6dced5ebc63436f459c06ab21a8d107cd842fb57f5c3a1e91bca8611"
+        }
+      }
+    ],
+    "both lookalikes blocked": [
+      {
+        "method": "lookup_name",
+        "arg": "rnodern",
+        "value": {}
+      },
+      {
+        "method": "lookup_name",
+        "arg": "mоdern",
+        "value": {}
+      },
+      {
+        "method": "lookup_skeleton",
+        "arg": "023279afa55b6c86ec093580c404a82f2122816a3b7a17ae6d8f93790719afbb",
+        "value": {
+          "name": "modern",
+          "owner": "0x7a413bb4ab62e31d62d4cd9efc8c8a8dae37fb42",
+          "skeleton": "rnodern",
+          "skeleton_key": "023279afa55b6c86ec093580c404a82f2122816a3b7a17ae6d8f93790719afbb",
+          "data_sha256": "95bd0aad6dced5ebc63436f459c06ab21a8d107cd842fb57f5c3a1e91bca8611"
+        }
+      }
+    ],
+    "fallback selected": [
+      {
+        "method": "lookup_name",
+        "arg": "mоdern",
+        "value": {}
+      },
+      {
+        "method": "lookup_name",
+        "arg": "modern-lab",
+        "value": {
+          "name": "modern-lab",
+          "owner": "0x34346773a22564cbcc5f1d67d1c1f9f196daea35",
+          "skeleton": "rnodern-lab",
+          "skeleton_key": "d29f53ee80a96dcd00dd0dbbee659b40a3d016870b20c2ec2863f1d065f3f8fe",
+          "data_sha256": "95bd0aad6dced5ebc63436f459c06ab21a8d107cd842fb57f5c3a1e91bca8611"
+        }
+      },
+      {
+        "method": "lookup_skeleton",
+        "arg": "023279afa55b6c86ec093580c404a82f2122816a3b7a17ae6d8f93790719afbb",
+        "value": {
+          "name": "modern",
+          "owner": "0x7a413bb4ab62e31d62d4cd9efc8c8a8dae37fb42",
+          "skeleton": "rnodern",
+          "skeleton_key": "023279afa55b6c86ec093580c404a82f2122816a3b7a17ae6d8f93790719afbb",
+          "data_sha256": "95bd0aad6dced5ebc63436f459c06ab21a8d107cd842fb57f5c3a1e91bca8611"
+        }
+      },
+      {
+        "method": "lookup_skeleton",
+        "arg": "d29f53ee80a96dcd00dd0dbbee659b40a3d016870b20c2ec2863f1d065f3f8fe",
+        "value": {
+          "name": "modern-lab",
+          "owner": "0x34346773a22564cbcc5f1d67d1c1f9f196daea35",
+          "skeleton": "rnodern-lab",
+          "skeleton_key": "d29f53ee80a96dcd00dd0dbbee659b40a3d016870b20c2ec2863f1d065f3f8fe",
+          "data_sha256": "95bd0aad6dced5ebc63436f459c06ab21a8d107cd842fb57f5c3a1e91bca8611"
+        }
+      }
+    ],
+    "release clears both indexes": [
+      {
+        "method": "lookup_name",
+        "arg": "modern",
+        "value": {}
+      },
+      {
+        "method": "lookup_skeleton",
+        "arg": "023279afa55b6c86ec093580c404a82f2122816a3b7a17ae6d8f93790719afbb",
+        "value": {}
+      },
+      {
+        "method": "lookup_skeleton",
+        "arg": "d29f53ee80a96dcd00dd0dbbee659b40a3d016870b20c2ec2863f1d065f3f8fe",
+        "value": {
+          "name": "modern-lab",
+          "owner": "0x34346773a22564cbcc5f1d67d1c1f9f196daea35",
+          "skeleton": "rnodern-lab",
+          "skeleton_key": "d29f53ee80a96dcd00dd0dbbee659b40a3d016870b20c2ec2863f1d065f3f8fe",
+          "data_sha256": "95bd0aad6dced5ebc63436f459c06ab21a8d107cd842fb57f5c3a1e91bca8611"
+        }
+      }
+    ]
+  },
+  "verified": true
+}

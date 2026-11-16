@@ -1,7 +1,8 @@
 import fs from 'node:fs';
 import {spawn} from 'node:child_process';
 import assert from 'node:assert/strict';
-import {rpc, receipt, source, read, sha} from './check.mjs';
+import {abi} from 'genlayer-js';
+import {rpc, receipt, source, read, sha, jsonSafe} from './check.mjs';
 
 const code = 'contracts/ConfusableNameRegistry.py';
 const publisher = {name: 'studio-proof-deployer', address: '0x7a413BB4AB62E31d62d4cD9efC8C8a8Dae37FB42'};
@@ -42,7 +43,7 @@ function send(args, signer, entry) {
   });
 }
 
-async function transaction(step, args, signer, expected = 'SUCCESS', message) {
+async function transaction(step, args, signer, expectedReturn) {
   let entry = proof.transactions.find(item => item.step === step);
   if (!entry) {
     assert(!verifyOnly, 'Verification requires an original broadcast journal');
@@ -56,13 +57,22 @@ async function transaction(step, args, signer, expected = 'SUCCESS', message) {
   assert.deepEqual(entry.args, args);
   assert.equal(entry.signer, signer.address);
   assert(entry.hash, 'Broadcast status unknown. Inspect account history before any retry.');
-  entry.receipt = await receipt(entry.hash, expected, message);
+  entry.receipt = await receipt(entry.hash);
   save();
-  assert.equal(entry.receipt.committed, expected === 'SUCCESS');
+  assert(entry.receipt.committed);
   const native = await rpc('eth_getTransactionByHash', [entry.hash]);
   assert.equal(native.from_address.toLowerCase(), signer.address.toLowerCase());
   assert.equal(BigInt(native.nonce), BigInt(entry.nonce));
   assert.equal(BigInt(native.value), 0n);
+  if (expectedReturn) {
+    const leader = native.consensus_data.leader_receipt.find(item => item.mode === 'leader');
+    const bytes = Buffer.from(leader.result, 'base64');
+    assert.equal(bytes[0], 0, 'Expected a GenVM Return result');
+    const decoded = jsonSafe(abi.calldata.decode(bytes.subarray(1)));
+    assert.deepEqual(decoded, expectedReturn, step);
+    entry.return_value = decoded;
+    save();
+  }
   console.log(step, entry.receipt.status, entry.receipt.execution);
   return entry.receipt.address;
 }
@@ -86,8 +96,8 @@ proof.source = await source(proof.address);
 proof.checkpoints ??= {};
 save();
 
-async function write(step, method, args, signer) {
-  const to = await transaction(step, ['write', proof.address, method, '--args', ...args], signer);
+async function write(step, method, args, signer, expectedReturn) {
+  const to = await transaction(step, ['write', proof.address, method, '--args', ...args], signer, expectedReturn);
   assert.equal(to.toLowerCase(), proof.address.toLowerCase());
 }
 
@@ -108,15 +118,21 @@ async function checkpoint(name, queries) {
 
 const byName = (arg, value) => ({method: 'lookup_name', arg, value});
 const byKey = (arg, value) => ({method: 'lookup_skeleton', arg, value});
-await write('reserve-original', 'reserve', [original, original], publisher);
+await write('reserve-original', 'reserve', [original, original], publisher, {
+  status: 'RESERVED', record: holder, candidate_keys: [originalKey],
+});
 await checkpoint('single slot claimed', [byName(original, holder), byKey(originalKey, holder)]);
 
-await write('reject-both-lookalikes', 'reserve', [asciiAlias, mixedAlias], peer);
+await write('reject-both-lookalikes', 'reserve', [asciiAlias, mixedAlias], peer, {
+  status: 'COLLISION', candidate_keys: [originalKey, originalKey],
+});
 await checkpoint('both lookalikes blocked', [
   byName(asciiAlias, {}), byName(mixedAlias, {}), byKey(originalKey, holder),
 ]);
 
-await write('reserve-fallback', 'reserve', [mixedAlias, fallback], peer);
+await write('reserve-fallback', 'reserve', [mixedAlias, fallback], peer, {
+  status: 'RESERVED', record: alternative, candidate_keys: [originalKey, fallbackKey],
+});
 await checkpoint('fallback selected', [
   byName(mixedAlias, {}), byName(fallback, alternative), byKey(originalKey, holder),
   byKey(fallbackKey, alternative),

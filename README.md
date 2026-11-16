@@ -6,6 +6,8 @@ confusable skeleton a single exclusive slot. For example, `modern`,
 A caller can supply a fallback to reserve atomically when the first slot is
 occupied.
 
+[StudioNet proof matrix](LIVE_PROOFS.md) · [Submission text](SUBMISSION.md)
+
 For each reservation, the leader and validators independently retrieve the
 Unicode 16.0 confusables file from a fixed publisher route. The Unicode Tools
 mirror and the release URL must produce the same pinned SHA-256 to be usable.
